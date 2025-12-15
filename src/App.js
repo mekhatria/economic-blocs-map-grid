@@ -4,11 +4,8 @@ import './App.css';
 // Import React hooks - useState manages component state, useEffect handles side effects like data fetching
 import { useState, useEffect, useRef, useMemo } from 'react';
 
-// Import Highcharts Maps version (not the regular charts)
-import Highcharts from 'highcharts/highmaps';
-
-// Import the React wrapper component for Highcharts
-import HighchartsReact from 'highcharts-react-official';
+// Import the new Highcharts React wrapper (no need to import Highcharts separately)
+import HighchartsReact from '@highcharts/react';
 
 // Import our economic blocs data
 import { economicBlocs } from './economicBlocs';
@@ -233,7 +230,6 @@ function App() {
 
       <div style={{ maxWidth: '800px', margin: '20px auto', padding: '0 20px' }}>
         <HighchartsReact
-          highcharts={Highcharts} // Pass Highcharts library
           constructorType={'mapChart'} // Tell it to create a map, not a regular chart
           options={mapOptions} // Pass our configuration
         />
