@@ -1,8 +1,19 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+beforeEach(() => {
+  // Mock map topology fetch
+  global.fetch = jest.fn().mockResolvedValue({
+    json: async () => ({})
+  });
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
+test('renders app title', async () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const title = await screen.findByText(/Economic Blocs Map/i);
+  expect(title).toBeInTheDocument();
 });
