@@ -9,14 +9,6 @@ import Highcharts from 'highcharts';
 import mapModule from 'highcharts/modules/map.js';
 import { Chart, setHighcharts } from '@highcharts/react';
 
-// Initialize the map module on the Highcharts instance (module export can vary)
-const mapFactory = mapModule && (mapModule.default || mapModule);
-if (typeof mapFactory === 'function') {
-  mapFactory(Highcharts);
-}
-// Register Highcharts instance for the React wrapper (needed for maps/constructorType)
-setHighcharts(Highcharts);
-
 // Local world topojson as a fallback/default
 import worldMap from '@highcharts/map-collection/custom/world.topo.json';
 
@@ -24,6 +16,14 @@ import worldMap from '@highcharts/map-collection/custom/world.topo.json';
 import { economicBlocs } from './economicBlocs';
 
 import StatCard from './components/StatCard';
+
+// Initialize the map module on the Highcharts instance (module export can vary)
+const mapFactory = mapModule && (mapModule.default || mapModule);
+if (typeof mapFactory === 'function') {
+  mapFactory(Highcharts);
+}
+// Register Highcharts instance for the React wrapper (needed for maps/constructorType)
+setHighcharts(Highcharts);
 
 function App() {
   // useState creates a state variable 'mapData' and a function 'setMapData' to update it
