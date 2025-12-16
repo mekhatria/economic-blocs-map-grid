@@ -2,6 +2,16 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Current app structure
+
+```
+App
+├─ BlocDropdown (uses useOutsideClick)
+├─ BlocInfo
+│  └─ StatCard x4
+└─ MapChart
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
