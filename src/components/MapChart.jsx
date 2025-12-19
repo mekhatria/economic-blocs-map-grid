@@ -1,6 +1,5 @@
 import { MapsChart } from '@highcharts/react/Maps';
 import { MapSeries } from '@highcharts/react/series/Map';
-import { Title } from '@highcharts/react/options';
 
 const mapOptions = {
     chart: {
