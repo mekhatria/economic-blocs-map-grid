@@ -16,7 +16,13 @@ function BlocInfo({ blocKey, bloc }) {
     >
       <h2 style={{ margin: '0 0 20px 0', fontSize: '28px' }}>{bloc.name}</h2>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+          gap: '0'
+        }}
+      >
         <StatCard label="GDP" value={bloc.gdp} showBorder={true} />
         <StatCard label="Population" value={bloc.population} showBorder={true} />
         <StatCard label="Founded" value={bloc.founded} showBorder={true} />

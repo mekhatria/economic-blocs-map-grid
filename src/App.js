@@ -41,8 +41,20 @@ function App() {
   }, [mapData, selectedBloc]);
 
   return (
-    <div className="App" style={{ backgroundColor: '#000000', minHeight: '100vh', padding: '20px' }}>
-      <h1 style={{ color: 'white', margin: '20px 0' }}>Economic Blocs Map</h1>
+    <div
+      className="App"
+      style={{
+        backgroundColor: '#000000',
+        minHeight: '100vh',
+        padding: '16px 12px',
+        width: '100%',
+        maxWidth: '960px',
+        margin: '0 auto',
+        boxSizing: 'border-box',
+        overflowX: 'hidden'
+      }}
+    >
+      <h1 style={{ color: 'white', margin: '12px 0 16px' }}>Economic Blocs Map</h1>
 
       <BlocDropdown options={blocOptions} selectedBloc={selectedBloc} onSelectBloc={setSelectedBloc} />
 

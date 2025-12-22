@@ -67,7 +67,7 @@ function MapChart({ mapData, seriesData }) {
   }, [seriesData]);
 
   return (
-    <div style={{ maxWidth: '800px', margin: '20px auto', padding: '0 20px' }}>
+    <div style={{ maxWidth: '800px', width: '100%', margin: '20px auto', padding: '0', boxSizing: 'border-box' }}>
       <MapsChart
         chartConstructor="mapChart"
         options={mapOptions}

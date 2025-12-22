@@ -18,7 +18,16 @@ function BlocDropdown({ options, selectedBloc, onSelectBloc }) {
   };
 
   return (
-    <div ref={dropdownRef} style={{ position: 'relative', width: '400px', margin: '20px auto' }}>
+    <div
+      ref={dropdownRef}
+      style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '480px',
+        margin: '16px auto',
+        boxSizing: 'border-box'
+      }}
+    >
       <div
         onClick={() => setIsOpen((open) => !open)}
         style={{
@@ -33,10 +42,13 @@ function BlocDropdown({ options, selectedBloc, onSelectBloc }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          boxShadow: isOpen ? '0 0 10px rgba(0, 188, 212, 0.5)' : 'none'
+          boxShadow: isOpen ? '0 0 10px rgba(0, 188, 212, 0.5)' : 'none',
+          boxSizing: 'border-box'
         }}
       >
-        <span>{selectedLabel}</span>
+        <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {selectedLabel}
+        </span>
         <span style={{ marginLeft: '10px' }}>{isOpen ? '▲' : '▼'}</span>
       </div>
 
@@ -54,7 +66,8 @@ function BlocDropdown({ options, selectedBloc, onSelectBloc }) {
             borderTop: 'none',
             borderRadius: '0 0 8px 8px',
             boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
-            zIndex: 1000
+            zIndex: 1000,
+            boxSizing: 'border-box'
           }}
         >
           <div
