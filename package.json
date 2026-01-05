@@ -1,5 +1,5 @@
 {
-  "name": "economic-blocs-map",
+  "name": "economic-blocs-map-grid",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
