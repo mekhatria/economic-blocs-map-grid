@@ -2,6 +2,7 @@ import './App.css';
 import { useMemo, useState } from 'react';
 import BlocDropdown from './components/BlocDropdown';
 import BlocInfo from './components/BlocInfo';
+import BlocGrid from './components/BlocGrid';
 import MapChart from './components/MapChart';
 import { economicBlocs } from './economicBlocs';
 import { useMapData } from './hooks/useMapData';
@@ -61,6 +62,8 @@ function App() {
       <BlocInfo blocKey={selectedBloc} bloc={selectedBloc ? economicBlocs[selectedBloc] : null} />
 
       <MapChart mapData={mapData} seriesData={seriesData} />
+
+      <BlocGrid blocs={economicBlocs} selectedBloc={selectedBloc} onSelectBloc={setSelectedBloc} />
     </div>
   );
 }

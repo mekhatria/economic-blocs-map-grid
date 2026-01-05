@@ -2,6 +2,125 @@
   text-align: center;
 }
 
+.bloc-grid-section {
+  margin: 28px auto 36px;
+  max-width: 900px;
+  padding: 0 8px;
+}
+
+.bloc-grid-header {
+  text-align: left;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.bloc-grid-header h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.bloc-grid-header p {
+  margin: 0;
+  color: #b0b0b0;
+  font-size: 14px;
+}
+
+.bloc-table {
+  display: grid;
+  gap: 6px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.bloc-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.6fr) repeat(4, minmax(110px, 1fr));
+  gap: 8px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+.bloc-row--header {
+  color: #9e9e9e;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #101010;
+  border: 1px solid #1f1f1f;
+}
+
+.bloc-header-button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-transform: uppercase;
+  letter-spacing: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.bloc-header-button.is-active {
+  color: #ffffff;
+}
+
+.bloc-header-indicator {
+  margin-left: 6px;
+  font-size: 10px;
+  color: #6f6f6f;
+}
+
+.bloc-row--data {
+  background: #111111;
+  color: #ffffff;
+  border: 1px solid #2d2d2d;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bloc-row--data:hover {
+  transform: translateY(-2px);
+  border-color: #555555;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.bloc-row--active {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.4);
+}
+
+.bloc-row--data div:nth-child(2) {
+  color: #b8b8b8;
+}
+
+@media (max-width: 720px) {
+  .bloc-row {
+    grid-template-columns: 1fr;
+  }
+
+  .bloc-row--header {
+    display: none;
+  }
+
+  .bloc-row--data div {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .bloc-row--data div::before {
+    content: attr(data-label);
+    color: #9e9e9e;
+    margin-right: 12px;
+  }
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
