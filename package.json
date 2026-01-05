@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@highcharts/grid-lite": "^2.1.1",
     "@highcharts/map-collection": "^2.3.2",
     "@highcharts/react": "^4.1.0",
     "@testing-library/dom": "^10.4.1",

@@ -1,48 +1,110 @@
-import { useMemo, useState } from 'react';
-
-const columns = [
-  { key: 'name', label: 'Name' },
-  { key: 'gdp', label: 'GDP' },
-  { key: 'population', label: 'Population' },
-  { key: 'founded', label: 'Founded' },
-  { key: 'members', label: 'Members' }
-];
+import { useEffect, useMemo, useRef } from 'react';
+import * as Grid from '@highcharts/grid-lite';
 
 function BlocGrid({ blocs, selectedBloc, onSelectBloc }) {
-  const [sortKey, setSortKey] = useState('name');
-  const [sortDir, setSortDir] = useState('asc');
+  const gridContainerRef = useRef(null);
+  const gridRef = useRef(null);
+  const gridRows = useMemo(
+    () =>
+      Object.entries(blocs).map(([key, bloc]) => ({
+        key,
+        name: bloc.name,
+        members: bloc.countries.length,
+        founded: bloc.founded,
+        gdp: bloc.gdp,
+        population: bloc.population
+      })),
+    [blocs]
+  );
 
-  const entries = useMemo(() => {
-    const rows = Object.entries(blocs).map(([key, bloc]) => ({
-      key,
-      name: bloc.name,
-      members: bloc.countries.length,
-      founded: bloc.founded,
-      gdp: bloc.gdp,
-      population: bloc.population
-    }));
+  const dataColumns = useMemo(
+    () => ({
+      key: gridRows.map((row) => row.key),
+      name: gridRows.map((row) => row.name),
+      gdp: gridRows.map((row) => row.gdp),
+      population: gridRows.map((row) => row.population),
+      founded: gridRows.map((row) => row.founded),
+      members: gridRows.map((row) => row.members)
+    }),
+    [gridRows]
+  );
 
-    rows.sort((a, b) => {
-      const dir = sortDir === 'asc' ? 1 : -1;
-      const aValue = a[sortKey];
-      const bValue = b[sortKey];
-      if (typeof aValue === 'number' && typeof bValue === 'number') {
-        return (aValue - bValue) * dir;
-      }
-      return String(aValue).localeCompare(String(bValue)) * dir;
+  useEffect(() => {
+    const container = gridContainerRef.current;
+    if (!container) return;
+
+    if (gridRef.current?.destroy) {
+      gridRef.current.destroy();
+      gridRef.current = null;
+    }
+
+    gridRef.current = Grid.grid(container, {
+      dataTable: { columns: dataColumns },
+      columns: [
+        {
+          id: 'name',
+          header: { format: 'Name' },
+          sorting: { sortable: true },
+          filtering: { enabled: true, inline: false }
+        },
+        {
+          id: 'gdp',
+          header: { format: 'GDP' },
+          sorting: { sortable: true },
+          filtering: { enabled: true, inline: false }
+        },
+        {
+          id: 'population',
+          header: { format: 'Population' },
+          sorting: { sortable: true },
+          filtering: { enabled: true, inline: false }
+        },
+        {
+          id: 'founded',
+          header: { format: 'Founded' },
+          sorting: { sortable: true },
+          filtering: { enabled: true, inline: false }
+        },
+        {
+          id: 'members',
+          header: { format: 'Members' },
+          sorting: { sortable: true },
+          filtering: { enabled: true, inline: false }
+        },
+        {
+          id: 'key',
+          enabled: false
+        }
+      ]
     });
 
-    return rows;
-  }, [blocs, sortKey, sortDir]);
+    const handleRowClick = (event) => {
+      const rowEl = event.target.closest('[data-row-index]');
+      if (!rowEl) return;
+      const rowIndex = Number(rowEl.getAttribute('data-row-index'));
+      if (Number.isNaN(rowIndex)) return;
+      const row = gridRef.current?.presentationTable?.getRowObject(rowIndex);
+      if (row?.key) onSelectBloc(row.key);
+    };
 
-  const handleSort = (key) => {
-    if (sortKey === key) {
-      setSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
-      return;
-    }
-    setSortKey(key);
-    setSortDir('asc');
-  };
+    container.addEventListener('click', handleRowClick);
+
+    return () => {
+      container.removeEventListener('click', handleRowClick);
+      if (gridRef.current?.destroy) {
+        gridRef.current.destroy();
+        gridRef.current = null;
+      }
+    };
+  }, [dataColumns, gridRows, onSelectBloc]);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const rowIndex =
+      selectedBloc && grid.presentationTable?.getRowIndexBy('key', selectedBloc);
+    grid.syncRow(rowIndex ?? void 0);
+  }, [selectedBloc]);
 
   return (
     <section className="bloc-grid-section">
@@ -50,59 +112,8 @@ function BlocGrid({ blocs, selectedBloc, onSelectBloc }) {
         <h2>All Economic Blocs</h2>
         <p>Click a bloc to highlight its members on the map.</p>
       </div>
-      <div className="bloc-table" role="table" aria-label="Economic bloc details">
-        <div className="bloc-row bloc-row--header" role="row">
-          {columns.map((column) => {
-            const isActive = sortKey === column.key;
-            const indicator = isActive ? (sortDir === 'asc' ? '▲' : '▼') : '↕';
-            return (
-              <button
-                key={column.key}
-                type="button"
-                className={`bloc-header-button${isActive ? ' is-active' : ''}`}
-                onClick={() => handleSort(column.key)}
-                role="columnheader"
-                aria-sort={
-                  isActive ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'
-                }
-              >
-                <span>{column.label}</span>
-                <span className="bloc-header-indicator" aria-hidden="true">
-                  {indicator}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-        {entries.map((row) => {
-          const isActive = row.key === selectedBloc;
-          return (
-            <button
-              key={row.key}
-              type="button"
-              className={`bloc-row bloc-row--data${isActive ? ' bloc-row--active' : ''}`}
-              onClick={() => onSelectBloc(row.key)}
-              aria-pressed={isActive}
-              role="row"
-            >
-              <div role="cell" data-label="Name">
-                {row.name}
-              </div>
-              <div role="cell" data-label="GDP">
-                {row.gdp}
-              </div>
-              <div role="cell" data-label="Population">
-                {row.population}
-              </div>
-              <div role="cell" data-label="Founded">
-                {row.founded}
-              </div>
-              <div role="cell" data-label="Members">
-                {row.members}
-              </div>
-            </button>
-          );
-        })}
+      <div className="bloc-grid-frame">
+        <div ref={gridContainerRef} className="bloc-datagrid" />
       </div>
     </section>
   );
