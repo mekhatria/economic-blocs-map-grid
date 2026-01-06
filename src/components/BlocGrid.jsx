@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef } from 'react';
-import * as Grid from '@highcharts/grid-lite';
+import { useEffect, useMemo, useRef } from "react";
+import * as Grid from "@highcharts/grid-lite";
+import "@highcharts/grid-lite/css/grid.css"; // <-- Add this line
 
 function BlocGrid({ blocs, selectedBloc, onSelectBloc }) {
   const gridContainerRef = useRef(null);
@@ -12,7 +13,7 @@ function BlocGrid({ blocs, selectedBloc, onSelectBloc }) {
         members: bloc.countries.length,
         founded: bloc.founded,
         gdp: bloc.gdp,
-        population: bloc.population
+        population: bloc.population,
       })),
     [blocs]
   );
@@ -24,7 +25,7 @@ function BlocGrid({ blocs, selectedBloc, onSelectBloc }) {
       gdp: gridRows.map((row) => row.gdp),
       population: gridRows.map((row) => row.population),
       founded: gridRows.map((row) => row.founded),
-      members: gridRows.map((row) => row.members)
+      members: gridRows.map((row) => row.members),
     }),
     [gridRows]
   );
@@ -42,55 +43,55 @@ function BlocGrid({ blocs, selectedBloc, onSelectBloc }) {
       dataTable: { columns: dataColumns },
       columns: [
         {
-          id: 'name',
-          header: { format: 'Name' },
+          id: "name",
+          header: { format: "Name" },
           sorting: { sortable: true },
-          filtering: { enabled: true, inline: false }
+          filtering: { enabled: true, inline: false },
         },
         {
-          id: 'gdp',
-          header: { format: 'GDP' },
+          id: "gdp",
+          header: { format: "GDP" },
           sorting: { sortable: true },
-          filtering: { enabled: true, inline: false }
+          filtering: { enabled: true, inline: false },
         },
         {
-          id: 'population',
-          header: { format: 'Population' },
+          id: "population",
+          header: { format: "Population" },
           sorting: { sortable: true },
-          filtering: { enabled: true, inline: false }
+          filtering: { enabled: true, inline: false },
         },
         {
-          id: 'founded',
-          header: { format: 'Founded' },
+          id: "founded",
+          header: { format: "Founded" },
           sorting: { sortable: true },
-          filtering: { enabled: true, inline: false }
+          filtering: { enabled: true, inline: false },
         },
         {
-          id: 'members',
-          header: { format: 'Members' },
+          id: "members",
+          header: { format: "Members" },
           sorting: { sortable: true },
-          filtering: { enabled: true, inline: false }
+          filtering: { enabled: true, inline: false },
         },
         {
-          id: 'key',
-          enabled: false
-        }
-      ]
+          id: "key",
+          enabled: false,
+        },
+      ],
     });
 
     const handleRowClick = (event) => {
-      const rowEl = event.target.closest('[data-row-index]');
+      const rowEl = event.target.closest("[data-row-index]");
       if (!rowEl) return;
-      const rowIndex = Number(rowEl.getAttribute('data-row-index'));
+      const rowIndex = Number(rowEl.getAttribute("data-row-index"));
       if (Number.isNaN(rowIndex)) return;
       const row = gridRef.current?.presentationTable?.getRowObject(rowIndex);
       if (row?.key) onSelectBloc(row.key);
     };
 
-    container.addEventListener('click', handleRowClick);
+    container.addEventListener("click", handleRowClick);
 
     return () => {
-      container.removeEventListener('click', handleRowClick);
+      container.removeEventListener("click", handleRowClick);
       if (gridRef.current?.destroy) {
         gridRef.current.destroy();
         gridRef.current = null;
@@ -102,7 +103,8 @@ function BlocGrid({ blocs, selectedBloc, onSelectBloc }) {
     const grid = gridRef.current;
     if (!grid) return;
     const rowIndex =
-      selectedBloc && grid.presentationTable?.getRowIndexBy('key', selectedBloc);
+      selectedBloc &&
+      grid.presentationTable?.getRowIndexBy("key", selectedBloc);
     grid.syncRow(rowIndex ?? void 0);
   }, [selectedBloc]);
 
